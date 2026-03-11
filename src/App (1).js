@@ -248,8 +248,13 @@ export default function StoryGenerator() {
           </div>
         )}
 
-        <div style={{ textAlign: "center", marginTop: 60, color: "#ccc", fontSize: "0.75rem", fontFamily: "monospace", letterSpacing: "0.1em" }}>
-          NO WORDS WERE HARMED IN THE MAKING OF THESE STORIES
+        <div style={{ textAlign: "center", marginTop: 60, fontFamily: "monospace", letterSpacing: "0.1em" }}>
+          <div style={{ color: "#ccc", fontSize: "0.75rem", marginBottom: 10 }}>
+            NO WORDS WERE HARMED IN THE MAKING OF THESE STORIES
+          </div>
+          <div style={{ display: "inline-block", background: "#1a1a1a", color: "#FFE14D", border: "2px solid #1a1a1a", padding: "6px 16px", fontSize: "0.75rem", boxShadow: "3px 3px 0 #FF6B6B", letterSpacing: "0.15em" }}>
+            ✦ A COMPLETELY USELESS PROJECT BY OMAR ✦
+          </div>
         </div>
       </div>
     </div>
