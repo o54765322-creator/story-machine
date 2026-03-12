@@ -3,7 +3,8 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { words } = req.body;
+  const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+  const { words } = body || {};
 
   if (!words || words.length !== 3 || words.some(w => !w?.trim())) {
     return res.status(400).json({ error: "Need exactly 3 words" });
