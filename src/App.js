@@ -49,26 +49,35 @@ export default function StoryGenerator() {
   const [generated, setGenerated] = useState(false);
 
   const handleGenerate = async () => {
-    if (words.some(w => !w.trim())) return;
-    setLoading(true);
-    setGenerated(false);
+  if (words.some(w => !w.trim())) return;
 
-    try {
-      const res = await fetch("/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ words })
-      });
-      const data = await res.json();
-      setStory(data.story || TEMPLATES[0](...words));
-    } catch {
-      const tmpl = TEMPLATES[Math.floor(Math.random() * TEMPLATES.length)];
-      setStory(tmpl(...words));
+  setLoading(true);
+  setGenerated(false);
+
+  try {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ words })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || "API failed");
     }
 
-    setLoading(false);
-    setGenerated(true);
-  };
+    const data = await res.json();
+    setStory(data.story);
+  } catch (err) {
+    console.error("API error:", err);
+    // fallback template only if Gemini fails
+    const tmpl = TEMPLATES[Math.floor(Math.random() * TEMPLATES.length)];
+    setStory(tmpl(...words));
+  }
+
+  setGenerated(true);
+  setLoading(false);
+};
 
   const reset = () => {
     setWords(["", "", ""]);
