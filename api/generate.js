@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Need exactly 3 words" });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ error: "API key not configured" });
   }
@@ -19,22 +19,19 @@ export default async function handler(req, res) {
 The tone should be deadpan and unhinged — like a Wikipedia article about something that should never have happened. Include ridiculous specific details (names, numbers, brands). End with a one-sentence punchline that makes no sense but feels correct. Do NOT use bullet points or headers, just flowing paragraphs.`;
 
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01"
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        messages: [{ role: "user", content: prompt }]
-      })
-    });
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }]
+        })
+      }
+    );
 
     const data = await response.json();
-    const story = data.content?.find(b => b.type === "text")?.text;
+    const story = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!story) {
       return res.status(500).json({ error: "No story generated" });
