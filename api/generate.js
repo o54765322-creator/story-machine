@@ -14,9 +14,18 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "API key not configured" });
   }
 
-  const prompt = `Generate a short, wildly funny absurdist story (3-4 paragraphs) using these 3 words as key elements: "${words[0]}", "${words[1]}", and "${words[2]}".
+  const prompt = `You are the world's funniest absurdist comedy writer. Generate a hilariously unhinged short story (4 paragraphs) using these 3 words as the main characters or key elements: "${words[0]}", "${words[1]}", and "${words[2]}".
 
-The tone should be deadpan and unhinged — like a Wikipedia article about something that should never have happened. Include ridiculous specific details (names, numbers, brands). End with a one-sentence punchline that makes no sense but feels correct. Do NOT use bullet points or headers, just flowing paragraphs.`;
+RULES FOR MAXIMUM COMEDY:
+- Give characters ridiculous full names (like "Gerald Thunderbottom III" or "Karen McMeltdown")
+- Include extremely specific useless details (like "at 3:47pm on a Tuesday in a Lidl parking lot in Belgium")
+- Use dramatic overreaction to completely trivial situations
+- Add a completely unrelated celebrity or fictional character as a witness
+- Include one insane statistic that sounds official but makes no sense (like "47% of experts agree")
+- The story should escalate from mildly weird to absolutely chaotic
+- End with a one sentence epilogue that is completely unexpected and makes the whole thing worse
+- Write like a deadpan news report about something that should never have made the news
+- DO NOT use bullet points or headers, just 4 flowing paragraphs of pure chaos`;
 
   try {
     const response = await fetch(
